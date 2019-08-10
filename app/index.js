@@ -155,7 +155,10 @@ window.addEventListener('DOMContentLoaded', function (event) {
             item.appendChild(name);
         },
         loadQrCode: function (value) {
-            var element = kjua({ text: value.ADDRESS });
+            var element = kjua({
+                text: value.ADDRESS,
+                size: 160,
+            });
             this.html.qr_code_div.appendChild(element);
         },
         loadStatsValue: function (value) {
