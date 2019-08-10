@@ -101,12 +101,15 @@ window.addEventListener('DOMContentLoaded', function (event) {
             this.html.openBtn.addEventListener('click', this.showModal.bind(this), false);
             this.html.closeBtn.addEventListener('click', this.hideModal.bind(this), false);
         },
-        initialize: function() {
+        bindNodes: function() {
             this.html.modal = document.getElementById('js-modal-window');
             this.html.openBtn = document.getElementById('js-modal-btn-open');
             this.html.closeBtn = document.getElementById('js-modal-btn-close');
 
             return this
+        },
+        initialize: function() {
+            this.bindNodes().bindEvents();
         },
     };
 
@@ -123,7 +126,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
         bindEvents: function() {},
     }
 
-    ModalApi.initialize().bindEvents();
+    ModalApi.initialize();
     // debug
     window.modal = ModalApi
 })
