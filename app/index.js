@@ -196,4 +196,14 @@ window.addEventListener('DOMContentLoaded', function (event) {
 
     });
 
-});
+    try {
+        $(payment.html.footer).click(function (event) {
+            window.infobox = showInfo('In order to pay this invoice you need to have a cryptocurrency wallet on your phone or computer. The easiest way to get Litecoin is with <a target="_blank" href="http://Coinbase.com">Coinbase.com</a> via their <a target="_blank" href="https://itunes.apple.com/us/app/coinbase-bitcoin-wallet/id886427730?mt=8">wallet app</a>. <br><br>Once you have the wallet loaded with some Litecoin, you need to send the amount on this invoice to the address shown here. You can do that by using the camera on your phone to scan the QRC code on this page.<br>');
+            event.preventDefault();
+            event.stopPropagation();
+        });
+    } catch (e) {
+        console.warn('Define showInfo method please')
+    }
+})
+
