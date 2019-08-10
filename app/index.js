@@ -194,8 +194,8 @@ window.addEventListener('DOMContentLoaded', function (event) {
         bindEvents: function () {
             this.html.wallet_button.addEventListener('click', this.copyText.bind(this), false);
             var delay = (ms) => new Promise(res => setTimeout(res, ms))
-            delay(3000).then(() => this.hideFooter());
-            delay(3000).then(() => this.payment_detected());
+            // delay(3000).then(() => this.hideFooter());
+            // delay(3000).then(() => this.payment_detected());
         },
         bindNodes: function () {
             this.html.status_label = document.getElementById('js-waiting-text');
