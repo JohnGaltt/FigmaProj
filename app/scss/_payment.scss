@@ -1,0 +1,191 @@
+.payment-container {
+    &__waiting-status {
+        background-color: #26aeb6;
+        padding: 2px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__waiting-wrapper {
+        display: flex;
+        align-items: center;
+    }
+
+    &__text-state,
+    &__timeout {
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 1.1;
+    }
+
+    &__spinner {
+        width: 35px;
+        height: 35px;
+
+        & > svg {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__cards-wrapper {
+        padding: 15px 24px 0 24px;
+
+        &:after {
+            margin-top: 15px;
+            content: '';
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: #2cb7be;
+        }
+    }
+
+    &__card-item {
+        display: flex;
+        margin-bottom: 16px;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &__quantity,
+    &__concat-symbol,
+    &__price,
+    &__card_name {
+        font-weight: normal;
+        line-height: 1.1;
+        color: #3c3c3c;
+        font-size: 16px;
+    }
+
+    &__concat-symbol {
+        padding: 0 5px;
+    }
+
+    &__card-name {
+        margin-left: 5px;
+    }
+
+    &__total-wrapper {
+        padding: 15px 24px;
+        display: flex;
+        align-items: center;
+    }
+
+    &__total-value,
+    &__currency-type,
+    &__label,
+    &__exchange-result {
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 1.1;
+    }
+
+    &__label {
+        margin-right: 10px;
+        color: #3c3c3c;
+        font-weight: bold;
+    }
+
+    &__currency-icon {
+        width: 36px;
+        height: 22px;
+        & > svg {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__crypto-wrapper {
+        display: flex;
+        align-items: center;
+        margin: 5px;
+    }
+    &__total-value,
+    &__currency-type {
+        font-weight: bold;
+        color: #000000;
+    }
+    &__total-value {
+        margin-right: 5px;
+    }
+    &__exchange-result {
+        font-weight: 300;
+    }
+
+    &__box {
+        background-color: #f3f3f4;
+        padding: 20px 30px;
+
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__qr-code-wrapper {
+        width: 145px;
+        height: 160px;
+        background-color: #fff;
+        & > img {
+            width: inherit;
+            height: inherit;
+        }
+    }
+    &__stats-value,
+    &__stats-label {
+        font-size: 16px;
+        line-height: 1.1;
+      color : #3C3C3C;
+    }
+    &__stats-value {
+      font-weight: bolder;
+      margin: 0 5px;
+    }
+    &__stats-wrapper {
+        display: flex;
+        margin: 16px 0;
+    }
+
+    &__wallet-address {
+        display: flex;
+        width: 100%;
+    }
+
+    &__wallet-input {
+        font-size: 16px;
+        line-height: 1.1;
+        font-weight: 300;
+        padding: 5px 12px;
+        font-family: 'Roboto Condensed', sans-serif;
+        border: 1px solid #d6d6d6;
+        background-color: #ffffff;
+        outline: none;
+
+        display: block;
+        width: 100%;
+    }
+
+    &__button-cpy {
+        outline: none;
+        background-color: #26aeb6;
+        padding: 3px 10px;
+        border: none;
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.helper-info {
+  font-size: 16px;
+  line-height: 1.2;
+  font-weight: 300;
+  color: #969696;
+}
