@@ -6,14 +6,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kjua@0.6.0/dist/kjua.min.js"></script>
     <link rel="stylesheet" href="main.css">
     <title>Document</title>
 </head>
 
 <body>
 
-</body>
+    <!-- <button onclick="payment_completed()">redirect</button>
+    <button onclick="payment_expired()">expired</button>
+    <button onclick="show_qr_code()">show qr</button>
+    <button onclick="payment_detected()">payment detected</button> -->
+
+    <body>
+        <div class="js-app">
+            <div class="modal-container" id="js-modal-window">
+                <div class="modal-container__header">
+                    <div class="modal-container__title">
+                        checkout
+                    </div>
+
+                    <button class="modal-container__close-btn" id="js-close-modal-btn">X</button>
+                </div>
+
+                <div class="modal-container__body">
+                    <div class="payment-container">
+                        <div class="payment-container__waiting-status">
+                            <div class="payment-container__spinner">
+                                spinner
+                            </div>
+                            <div class="payment-container__text-state" id="js-waiting-text">
+                                awaiting
+                            </div>
+                            <div class="payment-container__timeout" id="js-payment-time">
+                                15:77 :D
+                            </div>
+                        </div>
+                        <div class="payment-container__cards-wrapper">
+                            <ul class="payment-container__card-list" id="js-payment-card-list">
 
 
+                                <li class="payment-container__card-item">
+                                    <p class="payment-container__quantity">1x</p>
+                                    <p class="payment-container__price">
+                                        2000
+                                    </p>
+                                    <p class="payment-container__card-name">Lorem ipsum dolor.</p>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <div class="payment-container__box">
+                            <div class="payment-container__qr-code-wrapper" id="js-qr-code-placeholder">
+                                <!--QR CODE-->
+                            </div>
+                            <div class="payment-container__stats-wrapper">
+                                <p class="payment-container__stats-label">Exactly</p>
+                                <p class="payment-container__stats-value">3333</p>
+                                <p class="payment-container__stats-label">to address</p>
+                            </div>
+
+                            <div class="payment-container__wallet-input">
+                                <input name="wallet" type="text" class="wallet-input" id="js-wallet-address">
+                                <button class="payment-container__button" id="js-wallet-copy-address">
+                                    <svg width="17" height="20" viewBox="0 0 17 20" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M2.18203 18.25H12.205V4.75H2.18203V18.25ZM13.6368 4.75V15.25H15.0685V1.75H5.04553V3.25H12.205C12.5934 3.26042 12.9618 3.42397 13.23 3.70497C13.4982 3.98597 13.6445 4.36162 13.6368 4.75ZM2.18203 3.25H3.61378V1.75C3.60612 1.36162 3.75234 0.985971 4.02055 0.704971C4.28876 0.423972 4.65721 0.260418 5.04553 0.25H15.0685C15.4569 0.260418 15.8253 0.423972 16.0935 0.704971C16.3617 0.985971 16.5079 1.36162 16.5003 1.75V15.25C16.5079 15.6384 16.3617 16.014 16.0935 16.295C15.8253 16.576 15.4569 16.7396 15.0685 16.75H13.6368V18.25C13.6445 18.6384 13.4982 19.014 13.23 19.295C12.9618 19.576 12.5934 19.7396 12.205 19.75H2.18203C1.79372 19.7396 1.42527 19.576 1.15706 19.295C0.888841 19.014 0.742623 18.6384 0.750287 18.25V4.75C0.742623 4.36162 0.888841 3.98597 1.15706 3.70497C1.42527 3.42397 1.79372 3.26042 2.18203 3.25Z"
+                                            fill="white"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="'modal-container__footer">
+                    <a target="_blank" href="https://google.com" class="helper-info">
+                        Lorem ipsum dolor.
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </body>
 
 </html>
