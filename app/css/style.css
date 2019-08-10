@@ -41,11 +41,14 @@ ul {
     align-items: center; }
 
 .payment-container__waiting-status {
-  background-color: #26aeb6;
   padding: 2px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center; }
+  .payment-container__waiting-status--awaiting {
+    background-color: #26aeb6; }
+  .payment-container__waiting-status--expired {
+    background-color: red; }
 
 .payment-container__waiting-wrapper {
   display: flex;
