@@ -1,0 +1,9 @@
+Please use the "ADDRESS" field and this plugin: https://larsjung.de/kjua/ to display the QR code
+
+Please calculate time remaining to pay the invoice from time "PAY_BEFORE_UTC" this time will be about 15 minutes in future. You should show MM:SS counting down to this time.
+
+Use CART_JSON Qty and Name, Price to show the product details
+
+Use the "total" to show the total and CurrencyPayingWith to show the currency.
+
+If timer expires to 0:00 then you should hide the QR code and everything below the code and display "Invoice Expired!" instead of "Awaiting Payment..." in white font and red background (instead of the blue).
