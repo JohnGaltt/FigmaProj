@@ -131,16 +131,14 @@ ul {
 
 .payment-container__box {
   background-color: #f3f3f4;
-  padding: 20px 30px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center; }
+  padding: 20px 30px; }
 
 .payment-container__qr-code-wrapper {
-  width: 145px;
+  width: 160px;
   height: 160px;
-  background-color: #fff; }
+  display: flex;
+  justify-content: center;
+  align-items: center; }
   .payment-container__qr-code-wrapper > img {
     width: inherit;
     height: inherit; }
@@ -160,6 +158,7 @@ ul {
 
 .payment-container__wallet-address {
   display: flex;
+  justify-content: center;
   width: 100%; }
 
 .payment-container__wallet-input {
@@ -183,6 +182,19 @@ ul {
   border-bottom-right-radius: 6px; }
   .payment-container__button-cpy:hover {
     cursor: pointer; }
+
+.payment-container__data-is-ready, .payment-container__data-is-loading {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center; }
+
+.payment-container__data-is-ready {
+  display: flex; }
+
+.payment-container__data-is-loading {
+  display: none; }
 
 .helper-info {
   font-size: 16px;

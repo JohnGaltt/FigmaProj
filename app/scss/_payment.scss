@@ -119,17 +119,14 @@
     &__box {
         background-color: #f3f3f4;
         padding: 20px 30px;
-
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
     }
 
     &__qr-code-wrapper {
         width: 160px;
         height: 160px;
-        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         & > img {
             width: inherit;
             height: inherit;
@@ -152,6 +149,7 @@
 
     &__wallet-address {
         display: flex;
+        justify-content: center;
         width: 100%;
     }
 
@@ -180,6 +178,22 @@
         &:hover {
             cursor: pointer;
         }
+    }
+    &__data-is-ready,
+    &__data-is-loading {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__data-is-ready {
+        display: flex;
+    }
+
+    &__data-is-loading {
+        display: none;
     }
 }
 
