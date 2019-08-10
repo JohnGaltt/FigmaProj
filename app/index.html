@@ -1,19 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <script type="text/javascript" src="index.js"></script>
+        <link rel="stylesheet" href="main.css" />
+        <title>Document</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script type="text/javascript" src="index.js"></script>
-    <link rel="stylesheet" href="main.css">
-    <title>Document</title>
-</head>
+    <body>
+        <div class="js-app">
+            <div class="modal-container" id="js-modal-window">
+                <div class="modal-container__header">
 
-<body>
+                    <div class="modal-container__title">
+                        checkout
+                    </div>
 
-</body>
+                    <button class="modal-container__close-btn" id="js-close-modal-btn">X</button>
+                </div>
+
+                <div class="modal-container__body">
+
+                    <div class="payment-container">
+
+                        <div class="payment-container__waiting-status">
+
+                            <div class="payment-container__spinner">
+                                spinner
+                            </div>
+                            <div class="payment-container__text-state">
+                                awaiting
+                            </div>
+                            <div class="payment-container__timeout">
+                                15:77 :D
+                            </div>
+
+                        </div>
+
+                        <div class="payment-container__cards-wrapper">
+
+                            <ul class="payment-container__card-list">
+                                <li class="payment-container__card-item">
+                                    <p class="payment-container__label-text">Total</p>
+                                    <div class="payment-container__icon-wrapper">
+                                        svg-icon
+                                    </div>
+                                    <p class="payment-container__price-value">0.33</p>
+                                    <p class="payment-container__price-currency">BTC</p>
+                                    <p class="payment-container__cash-exchange-value">[555]</p>
+                                    <div class="payment-container__cash-exchange-currency">USD</div>
+                                </li>
+                            </ul>
 
 
+                        </div>
+                    </div>
+                </div>
 
+                <div class="'modal-container__footer">
+                    how do I pay this
+                </div>
+            </div>
+        </div>
+
+
+    </body>
 </html>
