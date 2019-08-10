@@ -1,6 +1,7 @@
 payment_expired()
 {
     // hide QR code and show "Invoice Expired" with red background
+
 }
 
 payment_detected()
