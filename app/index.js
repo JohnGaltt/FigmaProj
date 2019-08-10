@@ -76,3 +76,54 @@ myFunction = function () {
     /* Alert the copied text */
     alert("Copied the text: " + copyText.value);
 }
+
+
+function Modal() {
+
+}
+
+
+
+window.addEventListener('DOMContentLoaded', function (event) {
+    var ModalApi = {
+        html: {
+            modal: null,
+            openBtn: null,
+            closeBtn: null
+        },
+        showModal: function(event) {
+            this.html.modal.style.display = 'block'
+        },
+        hideModal: function(event) {
+            this.html.modal.style.display = 'none'
+        },
+        bindEvents: function () {
+            this.html.openBtn.addEventListener('click', this.showModal.bind(this), false);
+            this.html.closeBtn.addEventListener('click', this.hideModal.bind(this), false);
+        },
+        initialize: function() {
+            this.html.modal = document.getElementById('js-modal-window');
+            this.html.openBtn = document.getElementById('js-modal-btn-open');
+            this.html.closeBtn = document.getElementById('js-modal-btn-close');
+
+            return this
+        },
+    };
+
+
+    var PaymentContainer = {
+        state : {
+            isLoading: false
+        },
+        html: {
+            status_label: null,
+            payment_time_stamp: null
+        },
+        initialize: function() {},
+        bindEvents: function() {},
+    }
+
+    ModalApi.initialize().bindEvents();
+    // debug
+    window.modal = ModalApi
+})

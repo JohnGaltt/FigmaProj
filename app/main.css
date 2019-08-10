@@ -16,3 +16,8 @@
 .modal-container {
 
 }
+
+
+#js-modal-window {
+    display: none;
+}
