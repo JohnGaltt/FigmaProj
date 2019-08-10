@@ -45,7 +45,22 @@ window.addEventListener('DOMContentLoaded', function (event) {
         },
         loadTransactionHeader: function (value) {
             this.html.status_label.innerHTML = "Awaiting Payment...";
-            this.html.payment_time_stamp.innerHTML = value.PAY_BEFORE_UTC;
+            var x = setInterval(function () {
+                var end = new Date(value.PAY_BEFORE_UTC).getTime();
+                var now = new Date().getTime(); // hardcoded UTC_NOW
+                var diff = end - now;
+                debugger;
+                var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                this.html.payment_time_stamp.innerHTML = minutes + ':' + seconds;
+
+                console.log(minutes + ' ' + seconds);
+                if (diff < 0) {
+                    clearInterval(x);
+                    alert('expired');
+                }
+            }.bind(this), 1000);
         },
         loadCardsHeader: function (value) {
             value.CART_JSON.items.forEach(element => this.renderListItem(element));
@@ -90,8 +105,10 @@ window.addEventListener('DOMContentLoaded', function (event) {
             alert("Copied the text: " + this.html.wallet_address.value);
         },
         payment_expired: function (value) {
-            var date = new Date(value.PAY_BEFORE_UTC);
-            var dateNow = new Date('2019-08-07T05:03:01.41'); // hardcoded UTC_NOW
+            moment.utc(moment.duration(4500, "seconds").asMilliseconds()).format("HH:mm")
+            var end = new moment(value.PAY_BEFORE_UTC);
+            var now = new moment('2019-08-07T05:03:01.41'); // hardcoded UTC_NOW
+            var duration = moment.duration(end.diff(now));
 
             var timeDiff = date.getTime() - dateNow.getTime();
             var minutesDiff = timeDiff / (1000 * 60);
@@ -146,7 +163,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
     };
 
     var API = {
-        getPaymentStats: function(cb) {
+        getPaymentStats: function (cb) {
             cb({
                 "ID_TRANSACTION": 3,
                 "GUID_TRANSACTION": "c360e8e6-05cf-403f-85e9-509034c90b17",
@@ -163,7 +180,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
                 "CREATED": "2019-08-07T02:18:01.407",
                 "LAST_CHECKED": null,
                 "STATE": "N",
-                "PAY_BEFORE_UTC": "2019-08-07T05:18:01.41",
+                "PAY_BEFORE_UTC": "2019-11-07T05:18:01.41",
                 "CART_JSON": {
                     "items": [
                         {
