@@ -29,38 +29,83 @@ window.addEventListener('DOMContentLoaded', function (event) {
         },
     };
 
+    function renderSpinner() {
+        return `
+            <svg version="1.1" id="L8" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+              viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+                <path fill="#ffffff"
+                    d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+                    <animateTransform attributeName="transform" attributeType="XML"
+                        type="rotate" dur="1s" from="0 50 50" to="360 50 50"
+                        repeatCount="indefinite">
+                    </animateTransform>
+                 </path>
+             </svg>
+        `;
+    }
+
     var PaymentContainer = {
         state: {
-            isLoading: false
+            isLoading: false,
+            AWAITING : "awaiting",
+            EXPIRED : "expired",
         },
         html: {
             status_label: null,
+            status_wrapper: null,
+            status_spinner_wrapper: null,
             payment_time_stamp: null,
             card_list: [],
             qr_code_div: null,
             stats_value: null,
             wallet_address: null,
             footer: null,
-            wallet_button: null,
+            // wallet_button: null,
         },
         loadTransactionHeader: function (value) {
-            this.html.status_label.innerHTML = "Awaiting Payment...";
+            this.setStatus(this.state.AWAITING);
+            // this.html.status_label.innerHTML = "Awaiting Payment...";
             var x = setInterval(function () {
                 var end = new Date(value.PAY_BEFORE_UTC).getTime();
                 var now = new Date().getTime(); // hardcoded UTC_NOW
                 var diff = end - now;
-                debugger;
+
                 var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 var seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
                 this.html.payment_time_stamp.innerHTML = minutes + ':' + seconds;
 
-                console.log(minutes + ' ' + seconds);
                 if (diff < 0) {
                     clearInterval(x);
-                    alert('expired');
+                    this.setStatus(this.state.EXPIRED);
                 }
             }.bind(this), 1000);
+        },
+        statusSettings: function(statusKey) {
+            var statusCollection =  {
+                [this.state.AWAITING] : {
+                    text: "Awaiting Payment...",
+                    className: "payment-container__waiting-status--awaiting",
+                    spinner: true
+                },
+                [this.state.EXPIRED] : {
+                    text: "Expired",
+                    className: "payment-container__waiting-status--expired",
+                    spinner: false
+                }
+            };
+
+            return statusCollection[statusKey]
+        },
+        setStatus: function(status) {
+            var statusResult = this.statusSettings(status);
+            var defaultClassName = 'payment-container__waiting-status ';
+            this.html.status_label.innerHTML = statusResult.text;
+            this.html.status_wrapper.classList.value = defaultClassName.concat(statusResult.className);
+            if(statusResult.spinner) {
+                this.html.status_spinner_wrapper.innerHTML = renderSpinner()
+            }
         },
         loadCardsHeader: function (value) {
             value.CART_JSON.items.forEach(element => this.renderListItem(element));
@@ -129,7 +174,8 @@ window.addEventListener('DOMContentLoaded', function (event) {
             this.html.footer.style.display = 'none';
         },
         bindEvents: function () {
-            this.html.wallet_button.addEventListener('click', this.copyText.bind(this), false);
+            // var clipboard = new ClipboardJS(this.html.wallet_button);
+            // this.html.wallet_button.addEventListener('click', this.copyText.bind(this), false);
             var delay = (ms) => new Promise(res => setTimeout(res, ms))
             // delay(3000).then(() => this.hideFooter());
             // delay(3000).then(() => this.payment_detected());
@@ -142,7 +188,9 @@ window.addEventListener('DOMContentLoaded', function (event) {
             this.html.stats_value = document.getElementById('js-stats-value');
             this.html.wallet_address = document.getElementById('js-wallet-address');
             this.html.footer = document.getElementById('js-footer');
-            this.html.wallet_button = document.getElementById('js-wallet-copy-address');
+            // this.html.wallet_button = document.getElementById('js-wallet-copy-address');
+            this.html.status_wrapper = document.getElementById('js-waiting-status-wrapper')
+            this.html.status_spinner_wrapper = document.getElementById('js-payment-container');
 
             return this;
         },
@@ -200,8 +248,37 @@ window.addEventListener('DOMContentLoaded', function (event) {
         }
     }
 
+    var ButtonWallet = {
+        html: {
+            btn: null,
+            input: null,
+        },
+        bindNode: function() {
+            this.html.button = document.getElementById('js-wallet-copy-address');
+            this.html.input = document.getElementById('js-wallet-address');
+        },
+        initialize: function () {
+            this.bindNode();
+
+            var clipboard = new ClipboardJS(this.html.button);
+
+            clipboard.on('success', this.handleSuccess);
+            clipboard.on('error', this.handleError);
+        },
+        handleSuccess: function(e){
+             this.html.input.select();
+              e.clearSelection();
+            // TODO: handle success tooltip ?
+        } ,
+        handleError: function(e) {
+             // TODO: handle error tooltip ?
+        }
+    }
+
+
 
     var modal = ModalApi.initialize();
+    ButtonWallet.initialize();
     var payment = PaymentContainer.initialize();
 
     API.getPaymentStats(function (response) {
@@ -220,7 +297,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
             event.stopPropagation();
         });
     } catch (e) {
-        console.warn('Define showInfo method please')
+        console.warn('Define showInfo method please', {e})
     }
 })
 

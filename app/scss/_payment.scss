@@ -1,10 +1,21 @@
+$awaiting_status: #26aeb6;
+$expired_status: red;
+
 .payment-container {
     &__waiting-status {
-        background-color: #26aeb6;
+        //background-color: white;
         padding: 2px 24px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+        &--awaiting {
+            background-color: $awaiting_status;
+        }
+
+        &--expired {
+            background-color: $expired_status;
+        }
     }
 
     &__waiting-wrapper {
@@ -18,6 +29,7 @@
         font-size: 16px;
         font-weight: normal;
         line-height: 1.1;
+
     }
 
     &__spinner {
