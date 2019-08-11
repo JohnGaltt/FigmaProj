@@ -48,8 +48,8 @@ window.addEventListener('DOMContentLoaded', function (event) {
     var PaymentContainer = {
         state: {
             isLoading: false,
-            AWAITING : "awaiting",
-            EXPIRED : "expired",
+            AWAITING: "awaiting",
+            EXPIRED: "expired",
         },
         html: {
             status_label: null,
@@ -61,14 +61,17 @@ window.addEventListener('DOMContentLoaded', function (event) {
             stats_value: null,
             wallet_address: null,
             footer: null,
-            // wallet_button: null,
+            currency_paying_with: null,
+            currency: null,
+            total: null,
+            total_paying_with: null
         },
         loadTransactionHeader: function (value) {
             this.setStatus(this.state.AWAITING);
-            // this.html.status_label.innerHTML = "Awaiting Payment...";
+            var end = new Date(value.PAY_BEFORE_UTC).getTime();
+            console.log(new Date(value.PAY_BEFORE_UTC));
             var x = setInterval(function () {
-                var end = new Date(value.PAY_BEFORE_UTC).getTime();
-                var now = new Date().getTime(); // hardcoded UTC_NOW
+                var now = new Date().getTime();
                 var diff = end - now;
 
                 var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -82,14 +85,14 @@ window.addEventListener('DOMContentLoaded', function (event) {
                 }
             }.bind(this), 1000);
         },
-        statusSettings: function(statusKey) {
-            var statusCollection =  {
-                [this.state.AWAITING] : {
+        statusSettings: function (statusKey) {
+            var statusCollection = {
+                [this.state.AWAITING]: {
                     text: "Awaiting Payment...",
                     className: "payment-container__waiting-status--awaiting",
                     spinner: true
                 },
-                [this.state.EXPIRED] : {
+                [this.state.EXPIRED]: {
                     text: "Expired",
                     className: "payment-container__waiting-status--expired",
                     spinner: false
@@ -98,12 +101,12 @@ window.addEventListener('DOMContentLoaded', function (event) {
 
             return statusCollection[statusKey]
         },
-        setStatus: function(status) {
+        setStatus: function (status) {
             var statusResult = this.statusSettings(status);
             var defaultClassName = 'payment-container__waiting-status ';
             this.html.status_label.innerHTML = statusResult.text;
             this.html.status_wrapper.classList.value = defaultClassName.concat(statusResult.className);
-            if(statusResult.spinner) {
+            if (statusResult.spinner) {
                 this.html.status_spinner_wrapper.innerHTML = renderSpinner()
             }
         },
@@ -118,16 +121,21 @@ window.addEventListener('DOMContentLoaded', function (event) {
             var quantity = document.createElement('p');
             var price = document.createElement('p');
             var name = document.createElement('p');
+            var symbol = document.createElement('p');
+            //                                    <p class="payment-container__concat-symbol">x</p>
 
             quantity.className = "payment-container__quantity";
             price.className = "payment-container__price";
             name.className = "payment-container__card-name";
+            symbol.className = "payment-container__concat-symbol";
 
             quantity.innerHTML = element.Qty;
             price.innerHTML = element.Price;
             name.innerHTML = element.Name;
+            symbol.innerHTML = 'x';
 
             item.appendChild(quantity);
+            item.appendChild(symbol);
             item.appendChild(price);
             item.appendChild(name);
         },
@@ -144,22 +152,26 @@ window.addEventListener('DOMContentLoaded', function (event) {
         loadWalletAddress: function (value) {
             this.html.wallet_address.value = value.ADDRESS;
         },
+        loadPayingValues: function (value) {
+            this.html.total.innerHTML = value.total;
+            this.html.total_paying_with.innerHTML = value.TotalPayingWith;
+            this.html.currency.innerHTML = value.Currency;
+            this.html.currency_paying_with.innerHTML = value.CurrencyPayingWith;
+        },
         copyText: function (value) {
             this.html.wallet_address.select();
             document.execCommand("copy");
             alert("Copied the text: " + this.html.wallet_address.value);
         },
         payment_expired: function (value) {
+            //TODO refactor this method
             moment.utc(moment.duration(4500, "seconds").asMilliseconds()).format("HH:mm")
             var end = new moment(value.PAY_BEFORE_UTC);
-            var now = new moment('2019-08-07T05:03:01.41'); // hardcoded UTC_NOW
+            var now = new moment('2019-08-07T20:13:01.41'); // hardcoded UTC_NOW
             var duration = moment.duration(end.diff(now));
 
             var timeDiff = date.getTime() - dateNow.getTime();
             var minutesDiff = timeDiff / (1000 * 60);
-
-            console.log(minutesDiff);
-            // if PAY_BEFORE_UTC < UTC.NOW payment expired
         },
         payment_detected: function () {
             this.html.qr_code_div.innerHTML =
@@ -177,8 +189,8 @@ window.addEventListener('DOMContentLoaded', function (event) {
             // var clipboard = new ClipboardJS(this.html.wallet_button);
             // this.html.wallet_button.addEventListener('click', this.copyText.bind(this), false);
             var delay = (ms) => new Promise(res => setTimeout(res, ms))
-            // delay(3000).then(() => this.hideFooter());
-            // delay(3000).then(() => this.payment_detected());
+            delay(5000).then(() => this.hideFooter());
+            delay(5000).then(() => this.payment_detected());
         },
         bindNodes: function () {
             this.html.status_label = document.getElementById('js-waiting-text');
@@ -188,25 +200,20 @@ window.addEventListener('DOMContentLoaded', function (event) {
             this.html.stats_value = document.getElementById('js-stats-value');
             this.html.wallet_address = document.getElementById('js-wallet-address');
             this.html.footer = document.getElementById('js-footer');
-            // this.html.wallet_button = document.getElementById('js-wallet-copy-address');
             this.html.status_wrapper = document.getElementById('js-waiting-status-wrapper')
             this.html.status_spinner_wrapper = document.getElementById('js-payment-container');
+            //Currency paying with
+            this.html.total = document.getElementById('total-value');
+            this.html.currency = document.getElementById('currency-type');
+            this.html.total_paying_with = document.getElementById('paying-result');
+            this.html.currency_paying_with = document.getElementById('currency-result');
 
             return this;
         },
         initialize: function () {
             this.bindNodes().bindEvents();
 
-            return this
-            // get value from json
-            // var obj = ;
-
-            // this.loadTransactionHeader(obj);
-            // this.loadCardsHeader(obj);
-            // this.loadQrCode(obj);
-            // this.loadStatsValue(obj);
-            // this.loadWalletAddress(obj);
-
+            return this;
         },
     };
 
@@ -228,7 +235,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
                 "CREATED": "2019-08-07T02:18:01.407",
                 "LAST_CHECKED": null,
                 "STATE": "N",
-                "PAY_BEFORE_UTC": "2019-11-07T05:18:01.41",
+                "PAY_BEFORE_UTC": "2019-08-11T11:50:00.41",
                 "CART_JSON": {
                     "items": [
                         {
@@ -241,6 +248,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
                         }]
                 },
                 "CurrencyPayingWith": "BTC",
+                "TotalPayingWith": 0.1111,
                 "total": 20.0,
                 "Currency": "LTC",
                 "Hash": 1664635291
@@ -253,7 +261,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
             btn: null,
             input: null,
         },
-        bindNode: function() {
+        bindNode: function () {
             this.html.button = document.getElementById('js-wallet-copy-address');
             this.html.input = document.getElementById('js-wallet-address');
         },
@@ -265,13 +273,13 @@ window.addEventListener('DOMContentLoaded', function (event) {
             clipboard.on('success', this.handleSuccess);
             clipboard.on('error', this.handleError);
         },
-        handleSuccess: function(e){
-             this.html.input.select();
-              e.clearSelection();
+        handleSuccess: function (e) {
+            this.html.input.select();
+            e.clearSelection();
             // TODO: handle success tooltip ?
-        } ,
-        handleError: function(e) {
-             // TODO: handle error tooltip ?
+        },
+        handleError: function (e) {
+            // TODO: handle error tooltip ?
         }
     }
 
@@ -287,7 +295,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
         payment.loadQrCode(response);
         payment.loadStatsValue(response);
         payment.loadWalletAddress(response);
-
+        payment.loadPayingValues(response);
     });
 
     try {
@@ -297,7 +305,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
             event.stopPropagation();
         });
     } catch (e) {
-        console.warn('Define showInfo method please', {e})
+        console.warn('Define showInfo method please', { e })
     }
 })
 
