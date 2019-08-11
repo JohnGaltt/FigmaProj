@@ -85,7 +85,7 @@ ul {
 
 .payment-container__quantity, .payment-container__concat-symbol, .payment-container__price, .payment-container__card_name {
   font-weight: normal;
-  line-height: 1.1;
+  /* line-height: 1.1; */
   color: #3c3c3c;
   font-size: 16px; }
 
@@ -121,6 +121,10 @@ ul {
   display: flex;
   align-items: center;
   margin: 5px; }
+
+.payment-container__exchange-wrapper {
+  display: flex;
+  align-items: center; }
 
 .payment-container__total-value, .payment-container__currency-type {
   font-weight: bold;
