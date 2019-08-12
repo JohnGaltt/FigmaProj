@@ -256,7 +256,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
                 "CREATED": "2019-08-07T02:18:01.407",
                 "LAST_CHECKED": null,
                 "STATE": "N",
-                "PAY_BEFORE_UTC": "2019-08-12T20:50:00.41",
+                "PAY_BEFORE_UTC": "2019-08-13T20:50:00.41",
                 "CART_JSON": {
                     "items": [
                         {
