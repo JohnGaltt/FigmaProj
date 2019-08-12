@@ -72,10 +72,14 @@ window.addEventListener('DOMContentLoaded', function (event) {
         loadTransactionHeader: function (value) {
             this.setStatus(this.state.AWAITING);
             var end = new Date(value.PAY_BEFORE_UTC).getTime();
-
+            
             var x = setInterval(function () {
                 var now = new Date().getTime();
                 var diff = end - now;
+
+                if (this.state.CURRENT_STATUS_TYPE === "payment_detected") {
+                    clearInterval(x);
+                }
 
                 if (diff <= 0) {
                     clearInterval(x);
@@ -84,6 +88,9 @@ window.addEventListener('DOMContentLoaded', function (event) {
                 } else {
                     var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                     var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                    if (seconds < 10) {
+                        seconds = '0' + seconds;
+                    }
                     this.html.payment_time_stamp.innerHTML = minutes + ':' + seconds;
                 }
             }.bind(this), 1000);
@@ -96,7 +103,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
                     spinner: true
                 },
                 [this.state.PAYMENT_DETECTED]:{
-                    text: "Payment detected...",
+                    text: "Waiting for confirmation...",
                     className: "payment-container__waiting-status--awaiting",
                     spinner: true
                 },
@@ -198,11 +205,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
             this.html.currency_paying_with.innerHTML = value.CurrencyPayingWith;
         },
         payment_detected: function () {
-            this.html.payment_body.style.display = 'block'
-                    this.html.stats_container.style.display = 'block';
-                    document.getElementById('js-box-is-loading').style.display = 'flex'
-                    document.getElementById('js-box-is-ready').style.display = 'none'
-                    this.html.footer.style.display = 'none';
+            this.setStatus(this.state.PAYMENT_DETECTED);
         },
         payment_completed: function (value) {
             window.location.href = "/PaymentCompleted?ID_TRANSACTION=" + value.ID_TRANSACTION;
@@ -238,6 +241,11 @@ window.addEventListener('DOMContentLoaded', function (event) {
         },
     };
 
+    //For testing purposes
+    var now = new Date(); 
+    var minutes = 15 * 60 * 1000; // 15 minutes in milliseconds
+    now.setTime(now.getTime() + minutes);
+
     var API = {
         getPaymentStats: function (cb) {
             cb({
@@ -256,7 +264,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
                 "CREATED": "2019-08-07T02:18:01.407",
                 "LAST_CHECKED": null,
                 "STATE": "N",
-                "PAY_BEFORE_UTC": "2019-08-13T20:50:00.41",
+                "PAY_BEFORE_UTC": now,
                 "CART_JSON": {
                     "items": [
                         {
