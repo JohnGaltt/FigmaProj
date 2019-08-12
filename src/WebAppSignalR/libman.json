@@ -1,0 +1,50 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "provider": "unpkg",
+      "library": "jquery@3.4.1",
+      "destination": "wwwroot/lib/jquery/",
+      "files": [
+        "dist/jquery.min.js"
+      ]
+    }
+  ,
+{
+  "provider": "unpkg",
+  "library": "signalr@2.4.1",
+  "destination": "wwwroot/lib/signalr/",
+  "files": [
+    "jquery.signalR.min.js"
+  ]
+}
+,
+{
+  "provider": "unpkg",
+  "library": "clipboard@2.0.4",
+  "destination": "wwwroot/lib/clipboard/",
+  "files": [
+    "dist/clipboard.min.js"
+  ]
+}
+,
+{
+  "provider": "unpkg",
+  "library": "kjua@0.2.1",
+  "destination": "wwwroot/lib/kjua/",
+  "files": [
+    "dist/kjua.min.js"
+  ]
+}
+,
+{
+  "provider": "unpkg",
+  "library": "@aspnet/signalr@1.1.4",
+  "destination": "wwwroot/lib/signalr/",
+  "files": [
+    "dist/browser/signalr.min.js"
+  ]
+}
+]
+}

@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
-namespace Signalr.API.Hubs
+namespace WebAppSignalR.Hubs
 {
     public class TransactionHub : Hub
     {
@@ -14,5 +17,5 @@ namespace Signalr.API.Hubs
         {
             await Clients.All.SendAsync("payment_detected");
         }
-    }   
+    }
 }

@@ -256,7 +256,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
                 "CREATED": "2019-08-07T02:18:01.407",
                 "LAST_CHECKED": null,
                 "STATE": "N",
-                "PAY_BEFORE_UTC": "2019-08-11T20:50:00.41",
+                "PAY_BEFORE_UTC": "2019-08-12T20:50:00.41",
                 "CART_JSON": {
                     "items": [
                         {
@@ -278,8 +278,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
     }
 
     function connectToSignalR(completedCallBack, detectedCallBack){
-        var serverUrl = "https://localhost:44313";
-        var connection = new signalR.HubConnectionBuilder().withUrl(serverUrl + "/transactionHub").build();
+        var connection = new signalR.HubConnectionBuilder().withUrl("/transactionHub").build();
     
         connection.start().then(function () {
  
@@ -289,12 +288,10 @@ window.addEventListener('DOMContentLoaded', function (event) {
     
         connection.on("payment_completed", function () {
             completedCallBack();
-            alert('completed');
         });
         
         connection.on("payment_detected", function () {
             detectedCallBack();
-            alert('detected');
         });
     }
 

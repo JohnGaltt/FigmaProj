@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Signalr.API.Hubs;
+using System.Threading.Tasks;
+using WebAppSignalR.Hubs;
 
-namespace Signalr.API.Controllers
+namespace WebAppSignalR.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class HomeController : ControllerBase
+    public class HomeController : Controller
     {
         private IHubContext<TransactionHub> _hubContext { get; set; }
 
@@ -19,7 +14,10 @@ namespace Signalr.API.Controllers
             _hubContext = hubcontext;
         }
 
-        public IActionResult Get() => Ok("Signal R works :)");
+        public IActionResult Index()
+        {
+            return View();
+        }
 
         [HttpGet("completed")]
         public async Task<IActionResult> PaymentCompleted()
