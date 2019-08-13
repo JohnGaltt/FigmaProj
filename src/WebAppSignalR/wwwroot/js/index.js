@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', function (event) {
+﻿window.addEventListener('DOMContentLoaded', function (event) {
     var ModalApi = {
         html: {
             modal: null,
@@ -67,7 +67,8 @@ window.addEventListener('DOMContentLoaded', function (event) {
             total: null,
             total_paying_with: null,
             stats_container: null,
-            payment_body: null
+            payment_body: null,
+            bottom_confirmation: null
         },
         loadTransactionHeader: function (value) {
             this.setStatus(this.state.AWAITING);
@@ -140,13 +141,14 @@ window.addEventListener('DOMContentLoaded', function (event) {
             var statusResult = this.statusSettings(status, transactionId);
             var defaultClassName = 'payment-container__waiting-status ';
             this.html.status_label.innerHTML = statusResult.text;
+            this.html.bottom_confirmation.innerHTML = statusResult.text;
             this.html.status_wrapper.classList.value = defaultClassName.concat(statusResult.className);
             if (statusResult.spinner) {
-                this.html.status_spinner_wrapper.innerHTML = renderSpinner()
+                this.html.status_spinner_wrapper.innerHTML = renderSpinner();
             } else {
-                this.html.status_spinner_wrapper.innerHTML = ''
+                this.html.status_spinner_wrapper.innerHTML = '';
             }
-            this.renderBodyPaymentContainer(status)
+            this.renderBodyPaymentContainer(status);
         },
         renderBodyPaymentContainer: function(status) {
             switch (status) {
@@ -207,21 +209,21 @@ window.addEventListener('DOMContentLoaded', function (event) {
         loadQrCode: function (value) {
             var element = kjua({
                 text: value.ADDRESS,
-                size: 160,
+                size: 160
             });
             this.html.qr_code_div.appendChild(element);
         },
         loadStatsValue: function (value) {
-            this.html.stats_value.innerHTML = value.total
+            this.html.stats_value.innerHTML = value.TotalPayingWith + " " + value.CurrencyPayingWith;
         },
         loadWalletAddress: function (value) {
             this.html.wallet_address.value = value.ADDRESS;
         },
         loadPayingValues: function (value) {
-            this.html.total.innerHTML = value.total;
-            this.html.total_paying_with.innerHTML = value.TotalPayingWith;
-            this.html.currency.innerHTML = value.Currency;
-            this.html.currency_paying_with.innerHTML = value.CurrencyPayingWith;
+            this.html.total_paying_with.innerHTML = value.total;
+            this.html.total.innerHTML = value.TotalPayingWith;
+            this.html.currency_paying_with.innerHTML = value.Currency;
+            this.html.currency.innerHTML = value.CurrencyPayingWith;
         },
         payment_detected: function (response) {
             this.setStatus(this.state.PAYMENT_DETECTED, response.CONFIRMATIONS_NEEDED);
@@ -250,6 +252,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
             //payment_body
             this.html.stats_container = document.getElementById('js-stats-container');
             this.html.payment_body = document.getElementById('js-payment-body');
+            this.html.bottom_confirmation = document.getElementById('bottom-waiting');
 
             return this;
         },
