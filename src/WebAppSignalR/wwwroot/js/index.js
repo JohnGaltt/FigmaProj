@@ -79,6 +79,25 @@ window.addEventListener('DOMContentLoaded', function (event) {
 
                 if (this.state.CURRENT_STATUS_TYPE === "payment_detected") {
                     clearInterval(x);
+                    var sec = 0;
+                    var min = 0;
+                    this.html.payment_time_stamp.innerHTML = '00:00';
+                    setInterval(function () {
+                        sec++;
+                        min = parseInt(min);
+                        if (sec < 10) {
+                            sec = '0' + sec;
+                        }
+                        if (sec >= 60) {
+                            sec = '00';
+                            min++;
+                        }
+                        if (min < 10) {
+                            min = parseInt(min);
+                            min = '0' + min;
+                        }
+                        this.html.payment_time_stamp.innerHTML = min + ':' + sec;
+                    }.bind(this), 1000);
                 }
 
                 if (diff <= 0) {
@@ -95,15 +114,15 @@ window.addEventListener('DOMContentLoaded', function (event) {
                 }
             }.bind(this), 1000);
         },
-        statusSettings: function (statusKey) {
+        statusSettings: function (statusKey, transactionId) {
             var statusCollection = {
                 [this.state.AWAITING]: {
                     text: "Awaiting Payment...",
                     className: "payment-container__waiting-status--awaiting",
                     spinner: true
                 },
-                [this.state.PAYMENT_DETECTED]:{
-                    text: "Waiting for confirmation...",
+                [this.state.PAYMENT_DETECTED]: {
+                    text: "Waiting for " + transactionId + " confirmations...",
                     className: "payment-container__waiting-status--awaiting",
                     spinner: true
                 },
@@ -116,9 +135,9 @@ window.addEventListener('DOMContentLoaded', function (event) {
 
             return statusCollection[statusKey]
         },
-        setStatus: function (status) {
+        setStatus: function (status, transactionId) {
             this.state.CURRENT_STATUS_TYPE = status;
-            var statusResult = this.statusSettings(status);
+            var statusResult = this.statusSettings(status, transactionId);
             var defaultClassName = 'payment-container__waiting-status ';
             this.html.status_label.innerHTML = statusResult.text;
             this.html.status_wrapper.classList.value = defaultClassName.concat(statusResult.className);
@@ -204,8 +223,8 @@ window.addEventListener('DOMContentLoaded', function (event) {
             this.html.currency.innerHTML = value.Currency;
             this.html.currency_paying_with.innerHTML = value.CurrencyPayingWith;
         },
-        payment_detected: function () {
-            this.setStatus(this.state.PAYMENT_DETECTED);
+        payment_detected: function (response) {
+            this.setStatus(this.state.PAYMENT_DETECTED, response.CONFIRMATIONS_NEEDED);
         },
         payment_completed: function (value) {
             window.location.href = "/PaymentCompleted?ID_TRANSACTION=" + value.ID_TRANSACTION;
@@ -348,11 +367,11 @@ window.addEventListener('DOMContentLoaded', function (event) {
         connectToSignalR(
             function()
             {
-                payment.payment_completed(response)
+                payment.payment_completed(response);
             },
             function()
             {
-                payment.payment_detected()
+                payment.payment_detected(response);
             });
     });
 
