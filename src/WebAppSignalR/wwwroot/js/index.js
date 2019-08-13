@@ -139,21 +139,21 @@ window.addEventListener('DOMContentLoaded', function (event) {
                 }
                 case this.state.EXPIRED: {
                     this.html.stats_container.style.display = 'block';
-                    this.html.payment_body.style.display = 'none'
-                    this.html.footer.style.display = 'block';
+                    this.html.payment_body.style.display = 'none';
+                    this.html.footer.style.display = 'none';
                     break;
                 }
                 case this.state.PAYMENT_DETECTED: {
-                    this.html.payment_body.style.display = 'block'
+                    this.html.payment_body.style.display = 'block';
                     this.html.stats_container.style.display = 'block';
-                    document.getElementById('js-box-is-loading').style.display = 'flex'
-                    document.getElementById('js-box-is-ready').style.display = 'none'
+                    document.getElementById('js-box-is-loading').style.display = 'flex';
+                    document.getElementById('js-box-is-ready').style.display = 'none';
                     this.html.footer.style.display = 'none';
                     break;
                 }
                 default : {
                     this.html.stats_container.style.display = 'none';
-                    this.html.payment_body.style.display = 'none'
+                    this.html.payment_body.style.display = 'none';
                     this.html.footer.style.display = 'none';
                 }
             }
