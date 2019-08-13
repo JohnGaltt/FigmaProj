@@ -288,11 +288,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
     function connectToSignalR(completedCallBack, detectedCallBack){
         var connection = new signalR.HubConnectionBuilder().withUrl("/transactionHub").build();
     
-        connection.start().then(function () {
- 
-        }).catch(function (err) {
-            return console.error(err.toString());
-        });
+        start();
     
         connection.on("payment_completed", function () {
             completedCallBack();
@@ -301,6 +297,15 @@ window.addEventListener('DOMContentLoaded', function (event) {
         connection.on("payment_detected", function () {
             detectedCallBack();
         });
+
+        function start() {
+            connection.start().then(function () {
+
+            }).catch(function (err) {
+                console.log(err);
+                setTimeout(() => start(), 5000);
+            });
+        }
     }
 
     var ButtonWallet = {
