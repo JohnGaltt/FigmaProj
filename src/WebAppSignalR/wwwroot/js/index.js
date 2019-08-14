@@ -25,7 +25,7 @@
         initialize: function () {
             this.bindNodes().bindEvents();
 
-            return this
+            return this;
         },
     };
 
@@ -68,7 +68,8 @@
             total_paying_with: null,
             stats_container: null,
             payment_body: null,
-            bottom_confirmation: null
+            bottom_confirmation: null,
+            currency_icon: null
         },
         loadTransactionHeader: function (value) {
             this.setStatus(this.state.AWAITING);
@@ -160,11 +161,14 @@
                 }
                 case this.state.EXPIRED: {
                     this.html.stats_container.style.display = 'block';
-                    this.html.payment_body.style.display = 'none';
+                    //this.html.payment_body.style.display = 'none';
                     this.html.footer.style.display = 'none';
+                    document.getElementById('js-box-is-ready').style.display = 'none';
+                    document.getElementById('js-box-is-loading').style.display = 'none';
+                    document.getElementById('js-box-expired').style.display = 'flex';
                     break;
                 }
-                case this.state.PAYMENT_DETECTED: {
+                case this.state.PAYMENT_DETECTED: { 
                     this.html.payment_body.style.display = 'block';
                     this.html.stats_container.style.display = 'block';
                     document.getElementById('js-box-is-loading').style.display = 'flex';
@@ -207,10 +211,17 @@
             item.appendChild(name);
         },
         loadQrCode: function (value) {
+            var name = "assets/images/img/coins/" + value.CurrencyPayingWithName;
+            var img = document.createElement("img");
+            img.src = name;
+            img.display = 'none';
             var element = kjua({
                 text: value.ADDRESS,
-                size: 160
+                size: 160,
+                mode: "image",
+                image: img
             });
+
             this.html.qr_code_div.appendChild(element);
         },
         loadStatsValue: function (value) {
@@ -218,6 +229,15 @@
         },
         loadWalletAddress: function (value) {
             this.html.wallet_address.value = value.ADDRESS;
+        },
+        loadCurrencyIcon: function () {
+            var name = "assets/images/img/coins/bitcoincash.png";
+            var img = document.createElement("img");
+            img.src = name;
+            img.width = "36";
+            img.height = "34";
+            img.style = "margin-top: -6px";
+            this.html.currency_icon.appendChild(img);
         },
         loadPayingValues: function (value) {
             this.html.total_paying_with.innerHTML = value.total;
@@ -253,6 +273,7 @@
             this.html.stats_container = document.getElementById('js-stats-container');
             this.html.payment_body = document.getElementById('js-payment-body');
             this.html.bottom_confirmation = document.getElementById('bottom-waiting');
+            this.html.currency_icon = document.getElementById('currency-icon');
 
             return this;
         },
@@ -260,12 +281,12 @@
             this.bindNodes().bindEvents();
 
             return this;
-        },
+        }
     };
 
     //For testing purposes
     var now = new Date(); 
-    var minutes = 15 * 60 * 1000; // 15 minutes in milliseconds
+    var minutes = 0.1 * 60 * 1000; // 15 minutes in milliseconds
     now.setTime(now.getTime() + minutes);
 
     var API = {
@@ -302,8 +323,9 @@
                 "TotalPayingWith": 0.1111,
                 "total": 20.0,
                 "Currency": "LTC",
-                "Hash": 1664635291
-            })
+                "Hash": 1664635291,
+                "CurrencyPayingWithName": "bitcoin.png"
+            });
         }
     }
 
@@ -355,6 +377,10 @@
         }
     }
 
+    tippy('#js-wallet-copy-address', {
+        trigger: "click",
+        content: "Address copied!"
+    });
 
     var modal = ModalApi.initialize();
     ButtonWallet.initialize();
@@ -367,6 +393,7 @@
         payment.loadStatsValue(response);
         payment.loadWalletAddress(response);
         payment.loadPayingValues(response);
+        payment.loadCurrencyIcon();
         connectToSignalR(
             function()
             {
